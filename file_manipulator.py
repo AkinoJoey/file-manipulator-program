@@ -1,41 +1,46 @@
 import sys
 import os
 
-# command = argv[2]
-# inputpath = argv[3]
-# outputpath = argv[4]
+# 有効なコマンド
+# reverse,copy,duplicate-contents,replace-string
 
-# inputpath = /home/yuki-gakiya/mydir/text-file/test2.txt
-# outputpath = /home/yuki-gakiya/mydir/output-file-for-test
+print("実行したいコマンドを入力してください。")
+command = sys.stdin.readline().strip()
 
-if len(sys.argv) < 4:
-    print("正確なコマンド, 第1引数，第2引数を入力してください。")
-    sys.exit()
+def isValidCommand(command):
+    if command == "reverse" or command == "copy" or command == "duplicate-contents" or command == "replace-string":
+        return True
+    else:
+        return False
 
-command = sys.argv[1]
+def isFileExist(path):
+    if os.path.isfile(path):
+        return True
+    else:
+        return False
 
-if command == "reverse":
-    inputpath = sys.argv[2]
-    outputpath = sys.argv[3]
+def isDirExist(path):
+    if os.path.isdir(path):
+        return True
+    else:
+        return False
 
-    # inputpathがファイルじゃなかった場合
-    if not os.path.isfile(inputpath):
-        print("入力するファイルの正しいパスを入力してください。")
-        sys.exit()
+while not isValidCommand(command):
+    print("正しいコマンドを入力してください。")
+    command = sys.stdin.readline().strip()
     
-    fileName = inputpath[inputpath.rfind('/'):]
-    # outputpathがフォルダじゃなかった場合
-    if not os.path.isdir(outputpath):
-        print("出力する正しいフォルダのパスを入力してください。")
-        sys.exit()
-    
-    with open(inputpath) as f:
-        contents = f.read()
-    
-    with open(outputpath + fileName,'x') as f:
-        f.write(contents[::-1])
+print("入力するファイルのパスを入力してください。")
+inputPath = sys.stdin.readline().strip()
 
-else:
-    print("miss")
+while not isFileExist(inputPath):
+    print("正しいパスを入力してください。")
+    inputPath = sys.stdin.readline().strip()
 
+fileName = inputPath.rfind('/')
+print("出力するファイルのパスを入力してください。")
+outputPath = sys.stdin.readline().strip()
+
+while not isFileExist(outputPath):
+    print("正しいパスを入力してください。")
+    outputPath = sys.stdin.readline().strip()
 
