@@ -53,7 +53,7 @@ if command == "reverse":
     with open(inputPath) as f:
         contents = f.read()
 
-    with open(outputPath + fileName,'x') as f:
+    with open(outputPath + fileName,'w') as f:
         f.write(contents[::-1])
 
 
