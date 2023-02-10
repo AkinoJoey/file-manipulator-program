@@ -25,22 +25,35 @@ def isDirExist(path):
     else:
         return False
 
+def printAlert(missPoint):
+    print("正しい" + missPoint +"を入力してください。")
+
 while not isValidCommand(command):
-    print("正しいコマンドを入力してください。")
+    printAlert("コマンド")
     command = sys.stdin.readline().strip()
     
 print("入力するファイルのパスを入力してください。")
 inputPath = sys.stdin.readline().strip()
 
 while not isFileExist(inputPath):
-    print("正しいパスを入力してください。")
+    printAlert("入力するファイルのパス")
     inputPath = sys.stdin.readline().strip()
 
-fileName = inputPath.rfind('/')
+fileName = inputPath[inputPath.rfind('\\'):]
+print(fileName)
 print("出力するファイルのパスを入力してください。")
-outputPath = sys.stdin.readline().strip()
 
-while not isFileExist(outputPath):
-    print("正しいパスを入力してください。")
-    outputPath = sys.stdin.readline().strip()
+outputPath = sys.stdin.readline().strip()
+print(outputPath + fileName)
+if command == "reverse":
+    while not isDirExist(outputPath):
+        printAlert("出力するフォルダのパス")
+        outputPath = sys.stdin.readline().strip()
+    
+    with open(inputPath) as f:
+        contents = f.read()
+
+    with open(outputPath + fileName,'x') as f:
+        f.write(contents[::-1])
+
 
