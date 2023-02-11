@@ -1,13 +1,6 @@
 import sys
 import os
 
-def isValidCommand(command):
-    if command == "reverse" or command == "copy" or command == "duplicate-contents" or command == "replace-string":
-        return True
-    else:
-        print("正しいコマンドを入力してください。")
-        return False
-
 def isFileOrDirExsits(path):
     if os.path.exists(path):
         return True
@@ -20,11 +13,17 @@ def printDone(command):
     print(command + "が完了しました。")
 
 print("実行したいコマンドを入力してください。")
-command = sys.stdin.readline().strip()
+flag = False
 
 # コマンドのバリデータ
-while not isValidCommand(command):
+while not flag:
     command = sys.stdin.readline().strip()
+
+    if command == "reverse" or command == "copy" or command == "duplicate-contents" or command == "replace-string":
+        flag = True
+    else:
+        print("正しいコマンドを入力してください。")
+
     
 print("入力するファイルのパスを入力してください。")
 inputPath = sys.stdin.readline().strip()
@@ -33,18 +32,19 @@ inputPath = sys.stdin.readline().strip()
 while not isFileOrDirExsits(inputPath):
     inputPath = sys.stdin.readline().strip()
 
-fileName = inputPath[inputPath.rfind('\\'):] if os.name == "nt" else inputPath[inputPath.rfind('/'):]
-
 # コマンドがreverseだった場合　inputpath にあるファイルを受け取り、outputpath に inputpath の内容を逆にした新しいファイルを作成します。
 if command == "reverse":
+    
     print("出力したいフォルダのパスを入力してください。")
     outputPathDir = sys.stdin.readline().strip()
 
     # outputPathがディレクトリかどうか確認するバリデータ
     while not isFileOrDirExsits(outputPathDir):
         outputPathDir = sys.stdin.readline().strip()
-    
+
+    fileName = inputPath[inputPath.rfind('\\'):] if os.name == "nt" else inputPath[inputPath.rfind('/'):]
     outputPath = outputPathDir + fileName
+    
     if not os.path.exists(outputPath):
         with open(inputPath) as f:
             contents = f.read()
